@@ -1,42 +1,53 @@
 new Vue({
   el: "#app",
   data: {
-    player_heal : 100,
-    monster_heal : 100,
+    player_healty : 100,
+    monster_healty : 100,
     game_is_on: false,
     logs: [],
+    attack_multiple : 10,
+    special_attack_multiple : 25,
+    monster_attack_multiple : 15,
+    heal_up_multiple : 20,
+    log_text : {
+      attack : "player attack :",
+      special_attack : "special player attack :",
+      monster_attack : "monster attack :",
+      heal_up : "Player Heal Up :",
+      give_up : "Player Give Up :"
+    }
   },
   methods:{
      start_game: function(){
        this.game_is_on = true;
      },
      attack: function(){
-       var point = Math.ceil(Math.random() * 10);
-       this.monster_heal -= point;
-       this.add_logs({ turn :"player", text: "player attack( "+point+" )"});
-       this.monster_attach();
+       var point = Math.ceil(Math.random() * this.attack_multiple);
+       this.monster_healty -= point;
+       this.add_logs({ turn :"player", text: this.log_text.attack + point });
+       this.monster_attack();
 
      },
      speacial_attack: function(){
-       var point = Math.ceil(Math.random() * 25);
-       this.monster_heal -= point;
-       this.add_logs({ turn :"player", text: "special player attack( "+point+" )"});
-       this.monster_attach();
+       var point = Math.ceil(Math.random() * this.special_attack_multiple);
+       this.monster_healty -= point;
+       this.add_logs({ turn :"player", text: this.log_text.special_attack + point });
+       this.monster_attack();
      },
-     monster_attach: function(){
-       var point = Math.ceil(Math.random() * 15);
-       this.player_heal -= point;
-       this.add_logs({ turn :"monster", text: "monster attack( "+point+" )"});
+     monster_attack: function(){
+       var point = Math.ceil(Math.random() * this.monster_attack_multiple);
+       this.player_healty -= point;
+       this.add_logs({ turn :"monster", text: this.log_text.monster_attack + point });
      },
      heal_up: function(){
-       var point = Math.ceil(Math.random() * 20);
-       this.player_heal += point;
-       this.add_logs({ turn :"player", text: "Player Heal Up( "+point+" )"});
-       this.monster_attach();
+       var point = Math.ceil(Math.random() * this.heal_up_multiple);
+       this.player_healty += point;
+       this.add_logs({ turn :"player", text: this.log_text.heal_up + point });
+       this.monster_attack();
      },
      give_up: function(){
-       this.player_heal = 0;
-       this.add_logs({ turn :"player", text: "Player Give Up :( "});
+       this.player_healty = 0;
+       this.add_logs({ turn :"player", text: this.log_text.give_up + point });
      },
      finish_game: function(){
        alert('gagaş oyun bitip');
@@ -47,28 +58,40 @@ new Vue({
      }
   },
   watch:{
-    player_heal:function(value){
+    player_healty:function(value){
       if (value <= 0 ) {
-        this.player_heal = 0;
+        this.player_healty = 0;
         if (confirm("You loss, Do you want play again?")) {
-          this.player_heal = 100;
-          this.monster_heal = 100;
+          this.player_healty = 100;
+          this.monster_healty = 100;
           this.logs = [];
         }
       }else if (value >= 100) {
-        this.player_heal = 100;
+        this.player_healty = 100;
       }
     },
-    monster_heal:function(value){
+    monster_healty:function(value){
       if (value <= 0 ) {
-        this.monster_heal = 0;
+        this.monster_healty = 0;
         if (confirm("You win, Do you want play again?")) {
-          this.player_heal = 100;
-          this.monster_heal = 100;
+          this.player_healty = 100;
+          this.monster_healty = 100;
           this.logs = [];
         }
       }else if (value >= 100) {
-        this.monster_heal = 100;
+        this.monster_healty = 100;
+      }
+    }
+  },
+  computed : {
+    player_progress : function(){
+      return {
+        width : this.player_healty + "%"
+      }
+    },
+    monster_progress : function(){
+      return {
+        width : this.monster_healty + "%"
       }
     }
   }

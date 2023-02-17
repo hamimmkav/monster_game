@@ -13,16 +13,16 @@
         <div class="small-6 columns">
             <h1 class="text-center">ME</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: player_heal+'%'}">
-                  {{ player_heal }}
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="player_progress">
+                  {{ player_healty }}%
                 </div>
             </div>
         </div>
         <div class="small-6 columns">
             <h1 class="text-center">MONSTER</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: monster_heal+'%'}">
-                  {{ monster_heal }}
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="monster_progress">
+                  {{ monster_healty }}%
                 </div>
             </div>
         </div>

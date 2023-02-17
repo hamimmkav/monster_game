@@ -9,20 +9,25 @@ new Vue({
      start_game: function(){
        this.game_is_on = true;
      },
-     attach: function(){
+     attack: function(){
        var point = Math.ceil(Math.random() * 10);
        this.monster_heal -= point;
+       this.monster_heal < 0 ? this.monster_heal = 0 : this.monster_heal = this.monster_heal;
        this.monster_attach();
-
      },
      speacial_attack: function(){
        var point = Math.ceil(Math.random() * 25);
        this.monster_heal -= point;
+       if (this.monster_heal < 0) {
+         this.monster_heal = 0;
+         this.finish_game();
+       }
        this.monster_attach();
      },
      monster_attach: function(){
        var point = Math.ceil(Math.random() * 15);
        this.player_heal -= point;
+       this.player_heal < 0 ? this.player_heal = 0 : this.player_heal = this.player_heal;
      },
      heal_up: function(){
        var point = Math.ceil(Math.random() * 20);
@@ -31,6 +36,10 @@ new Vue({
      },
      give_up: function(){
        this.player_heal = 0;
+     },
+     finish_game: function(){
+       alert('gagaş oyun bitip');
+       this.game_is_on = false;
      },
   }
 })
